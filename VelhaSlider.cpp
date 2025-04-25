@@ -210,10 +210,13 @@ int main(){
             cout << endl;
 
             // Verifica se as coordenadas estão dentro do intervalo válido
-            if(seletX < 0 || seletX > 2 || seletY < 0 || seletY > 2) {
+            if(seletX < 1 || seletX > 3 || seletY < 1 || seletY > 3) {
                 cout << "Coordenadas inválidas! Tente novamente." << endl;
                 continue; // volta para o começo do loop
             }
+            
+            seletX --;
+            seletY --;
 
             if (map[seletX][seletY] != '_') {
                 cout << "Posição já ocupada! Tente outra." << endl;
@@ -222,7 +225,7 @@ int main(){
 
             //coloca a peça no mapa
             if(jogadorD == true)jogadorD=false;
-            place(map,seletX,seletY,'X');
+            place(map,seletY,seletX,'X');
         } else{
             if(jogadorD == true){
                 cout << "Você não pode deslizar duas vezes seguidas\n";
@@ -240,9 +243,9 @@ int main(){
             }
 
             if(Pescolha == 'l'){
-                cout << "qual linha? (0, 1 ou 2): ";
+                cout << "qual linha? (1, 2 ou 3): ";
                 cin >> index;
-                if(index < 0 || index > 2){
+                if(index < 1 || index > 3){
                     cout << "Índice inválido. Tente novamente." << endl;
                     continue;
                 }
@@ -255,7 +258,7 @@ int main(){
                 }
             }
             else { // Pescolha == 'c'
-                cout << "qual coluna? (0, 1 ou 2): ";
+                cout << "qual coluna? (1, 2 ou 3): ";
                 cin >> index;
                 if(index < 0 || index > 2){
                     cout << "Índice inválido. Tente novamente." << endl;
@@ -270,6 +273,7 @@ int main(){
                 }
             }
             //desliza
+            index--;
             slide(map, Pescolha, index, dir);
             jogadorD = true;
         }
@@ -290,7 +294,7 @@ int main(){
             break;
         }
         //mostra a jogada da IA
-        cout << "jogada da IA: " << jogada[0] << " " << jogada[1] << endl;
+        cout << "jogada da IA: " << jogada[0] + 1 << " " << jogada[1] + 1  << endl;
 
         //realizar jogada
         place(map,jogada[0],jogada[1],'O');
