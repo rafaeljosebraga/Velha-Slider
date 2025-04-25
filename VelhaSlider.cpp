@@ -23,7 +23,7 @@ mov acoes(char Peca,vector<vector<char>> &map){
 }
 
 //mostra o mapa
-void mostra(vector<vector<char>> map){
+void mostra(vector<vector<char>> &map){
     for (int x = 0; x < 3; x++) {
         for (int y = 0; y < 3; y++){
             cout << map[x][y] << ' ';
@@ -33,8 +33,8 @@ void mostra(vector<vector<char>> map){
 }
 
 //função que checa a vitória
-int win_check(vector<vector<char>> map){
-    //checa colunas
+int win_check(vector<vector<char>> &map){
+    //checa linhas e colunas
     for (int i = 0; i < 3; ++i) {
         if (map[i][0] != '_' && map[i][0] == map[i][1] && map[i][1] == map[i][2]) return 1;
         if (map[0][i] != '_' && map[0][i] == map[1][i] && map[1][i] == map[2][i]) return 1;
@@ -95,7 +95,7 @@ void slide(vector<vector<char>> &map,char escolha,int index,char dir){
 
 //Calcula a melhor jogada usando minimax
 //deve retornar uma cordenada
-int minimax(vector<vector<char>> map, bool isMaximizing, bool jogadorD){
+int minimax(vector<vector<char>> &map, bool isMaximizing, bool jogadorD){
     //A ia precisa prever também a ação de deslizar pelo jogador quando ele pode deslizar
     int result = win_check(map);
     if (result == 1) return isMaximizing ? -1 : 1; // vitória
@@ -120,7 +120,7 @@ int minimax(vector<vector<char>> map, bool isMaximizing, bool jogadorD){
     return bestScore;
 }
 
-vector<int> Agente_joga(vector<vector<char>> map,bool maquinaD,bool jogadorD){
+vector<int> Agente_joga(vector<vector<char>> &map,bool maquinaD,bool jogadorD){
     int bestScore = numeric_limits<int>::min();
     vector<int> bestMove = {-1, -1};
 
@@ -202,11 +202,13 @@ int main(){
 
         if(Pescolha == 'c'){
             cout << "escolha onde quer colocar com coordenadas:" << endl;
-            //input do jogador sobre onde vai colocar
-            cin >> seletX;
-            // seletX-=1;
-            cin >> seletY;
-            // seletY-=1;
+            //input do jogador sobre onde vai colocar impedindo que ele coloque letras
+            if (!(cin >> seletX >> seletY)) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Entrada inválida: use números.\n";
+                continue;
+            }
             cout << endl;
 
             // Verifica se as coordenadas estão dentro do intervalo válido
@@ -218,14 +220,14 @@ int main(){
             seletX --;
             seletY --;
 
-            if (map[seletY][seletX] != '_') {
+            if (map[seletX][seletY] != '_') {
                 cout << "Posição já ocupada! Tente outra." << endl;
                 continue; // volta para o começo do loop
             }
 
             //coloca a peça no mapa
             if(jogadorD == true)jogadorD=false;
-            place(map,seletY,seletX,'X');
+            place(map,seletX,seletY,'X');
         } else{
             if(jogadorD == true){
                 cout << "Você não pode deslizar duas vezes seguidas\n";
@@ -260,7 +262,7 @@ int main(){
             else { // Pescolha == 'c'
                 cout << "qual coluna? (1, 2 ou 3): ";
                 cin >> index;
-                if(index < 0 || index > 2){
+                if(index < 1 || index > 3){
                     cout << "Índice inválido. Tente novamente." << endl;
                     continue;
                 }
@@ -309,4 +311,3 @@ int main(){
     }
    return 0;
 }
-
