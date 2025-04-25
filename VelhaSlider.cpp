@@ -218,7 +218,7 @@ int main(){
             seletX --;
             seletY --;
 
-            if (map[seletX][seletY] != '_') {
+            if (map[seletY][seletX] != '_') {
                 cout << "Posição já ocupada! Tente outra." << endl;
                 continue; // volta para o começo do loop
             }
@@ -294,7 +294,7 @@ int main(){
             break;
         }
         //mostra a jogada da IA
-        cout << "jogada da IA: " << jogada[0] + 1 << " " << jogada[1] + 1  << endl;
+        cout << "jogada da IA: " << jogada[1] + 1 << " " << jogada[0] + 1  << endl;
 
         //realizar jogada
         place(map,jogada[0],jogada[1],'O');
