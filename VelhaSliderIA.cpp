@@ -3,12 +3,10 @@
 #include <cctype>
 #include <limits>
 
-
 using namespace std;
 
-
 typedef vector<vector<int>> mov;
-
+typedef vector<vector<char>> Board;
 
 // busca por largura para encontrar a melhor jogada para o segundo jogador (Agente IA)
 mov acoes(char Peca, vector<vector<char>> &map) {
@@ -23,7 +21,6 @@ mov acoes(char Peca, vector<vector<char>> &map) {
     return movimentos;
 }
 
-
 // mostra o mapa
 void mostra(vector<vector<char>> &map) {
     for (int x = 0; x < 3; x++) {
@@ -34,9 +31,7 @@ void mostra(vector<vector<char>> &map) {
     }
 }
 
-
 // função que checa a vitória
-typedef vector<vector<char>> Board;
 int win_check(Board &map) {
     // checa linhas e colunas
     for (int i = 0; i < 3; ++i) {
@@ -46,7 +41,6 @@ int win_check(Board &map) {
     // checa diagonais
     if (map[0][0] != '_' && map[0][0] == map[1][1] && map[1][1] == map[2][2]) return 1;
     if (map[0][2] != '_' && map[0][2] == map[1][1] && map[1][1] == map[2][0]) return 1;
-
 
     int counter = 0;
     for (int x = 0; x < 3; x++) {
@@ -58,12 +52,10 @@ int win_check(Board &map) {
     return -1;  // jogo continua
 }
 
-
 // função que coloca peça
 void place(Board &map, int x, int y, char C) {
     map[x][y] = C;
 }
-
 
 // função que desliza (linha ou coluna)
 void slide(Board &map, char escolha, int index, char dir) {
@@ -84,20 +76,18 @@ void slide(Board &map, char escolha, int index, char dir) {
     }
 }
 
-
 // minimax (avaliação recursiva)
-int minimax(Board &map, bool isMaximizing, bool jogadorD) {
+int minimax(Board &map, bool isMaximizing) {
     int result = win_check(map);
     if (result == 1) return isMaximizing ? -1 : 1;
     if (result == 0) return 0;
-
 
     int bestScore = isMaximizing ? numeric_limits<int>::min() : numeric_limits<int>::max();
     for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
             if (map[i][j] == '_') {
                 map[i][j] = isMaximizing ? 'O' : 'X';
-                int score = minimax(map, !isMaximizing, jogadorD);
+                int score = minimax(map, !isMaximizing);
                 map[i][j] = '_';
                 if (isMaximizing)
                     bestScore = max(score, bestScore);
@@ -109,61 +99,55 @@ int minimax(Board &map, bool isMaximizing, bool jogadorD) {
     return bestScore;
 }
 
-
 // Calcula a melhor jogada para IA, incluindo deslizes
-vector<int> Agente_joga(Board &map, bool maquinaD, bool jogadorD) {
+vector<int> Agente_joga(Board &map, bool lastMoveWasSlide) {
     int bestScore = numeric_limits<int>::min();
-    vector<int> bestMove = {-1, -1}; // marcação padrão [i, j]
+    vector<int> bestMove = {-1, -1};
 
-
-    // 1) Testa marcações
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            if (map[i][j] == '_') {
-                map[i][j] = 'O';
-                int score = minimax(map, false, jogadorD);
-                map[i][j] = '_';
-                if (score > bestScore) {
-                    bestScore = score;
-                    bestMove = {i, j};
-                }
-            }
+    // Testa marcações usando acoes()
+    mov vazios = acoes('O', map);
+    for (auto &m : vazios) {
+        int i = m[0], j = m[1];
+        map[i][j] = 'O';
+        int score = minimax(map, false);
+        map[i][j] = '_';
+        if (score > bestScore) {
+            bestScore = score;
+            bestMove = {i, j};
         }
     }
 
-
-    // 2) Testa deslizes (se possível)
-    if (!maquinaD) {
+    // Testa deslizes (continua igual ao seu código original)
+    if (!lastMoveWasSlide) {
         // deslizes de linha
-        for (int linha = 0; linha < 3; linha++) {
-            for (int dir_code = 0; dir_code < 2; dir_code++) {
+        for (int linha = 0; linha < 3; ++linha) {
+            for (int dir_code = 0; dir_code < 2; ++dir_code) {
                 char dir = (dir_code == 0 ? 'e' : 'd');
                 slide(map, 'l', linha, dir);
-                int score = minimax(map, false, jogadorD);
-                slide(map, 'l', linha, (dir == 'e' ? 'd' : 'e')); // desfaz
+                int score = minimax(map, false);
+                slide(map, 'l', linha, (dir == 'e' ? 'd' : 'e'));
                 if (score > bestScore) {
                     bestScore = score;
-                    bestMove = {0, linha, dir_code}; // tipo=0 (linha)
+                    bestMove = {0, linha, dir_code};
                 }
             }
         }
         // deslizes de coluna
-        for (int col = 0; col < 3; col++) {
-            for (int dir_code = 0; dir_code < 2; dir_code++) {
+        for (int col = 0; col < 3; ++col) {
+            for (int dir_code = 0; dir_code < 2; ++dir_code) {
                 char dir = (dir_code == 0 ? 'c' : 'b');
                 slide(map, 'c', col, dir);
-                int score = minimax(map, false, jogadorD);
-                slide(map, 'c', col, (dir == 'c' ? 'b' : 'c')); // desfaz
+                int score = minimax(map, false);
+                slide(map, 'c', col, (dir == 'c' ? 'b' : 'c'));
                 if (score > bestScore) {
                     bestScore = score;
-                    bestMove = {1, col, dir_code}; // tipo=1 (coluna)
+                    bestMove = {1, col, dir_code};
                 }
             }
         }
     }
     return bestMove;
 }
-
 
 int main() {
     // inicializa o tabuleiro vazio
@@ -173,14 +157,11 @@ int main() {
         {'_', '_', '_'}
     };
 
-
     int seletX = 0, seletY = 0;
     char Pescolha;
     int index;
     char dir;
-    bool jogadorD = false;
-    bool maquinaD = false;
-
+    bool lastMoveWasSlide = false;
 
     mostra(map);
     while (true) {
@@ -209,9 +190,9 @@ int main() {
                 continue;
             }
             place(map, seletX, seletY, 'X');
-            jogadorD = false;
+            lastMoveWasSlide = false;
         } else {
-            if (jogadorD) {
+            if (lastMoveWasSlide) {
                 cout << "Você não pode deslizar duas vezes seguidas" << endl;
                 continue;
             }
@@ -235,7 +216,7 @@ int main() {
             }
             index--;
             slide(map, Pescolha, index, dir);
-            jogadorD = true;
+            lastMoveWasSlide = true;
         }
         // checa vitória do jogador
         if (win_check(map) == 1) {
@@ -244,11 +225,11 @@ int main() {
             break;
         }
         // vez da IA
-        vector<int> jogada = Agente_joga(map, maquinaD, jogadorD);
+        vector<int> jogada = Agente_joga(map, lastMoveWasSlide);
         if (jogada.size() == 2) {
             // jogada normal
             place(map, jogada[0], jogada[1], 'O');
-            maquinaD = false;
+            lastMoveWasSlide = false;
             cout << "Jogada da IA: " << jogada[1] + 1 << " " << jogada[0] + 1 << endl;
         } else if (jogada.size() == 3) {
             // deslize da IA
@@ -256,7 +237,7 @@ int main() {
             int idx = jogada[1];
             char idir = (jogada[2] == 0 ? (escolha == 'l' ? 'e' : 'c') : (escolha == 'l' ? 'd' : 'b'));
             slide(map, escolha, idx, idir);
-            maquinaD = true;
+            lastMoveWasSlide = true;
             cout << "IA desliza "
                  << (escolha=='l'?"linha ":"coluna ")
                  << idx+1 << " para "
