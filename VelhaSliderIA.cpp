@@ -175,12 +175,223 @@ int minimax(Board &map, bool isMaximizing, bool lastMoveWasSlide, double alpha, 
     return best;
 }
 
-// Calcula a melhor jogada para IA, incluindo deslizes
-vector<int> Agente_joga(Board &map, bool lastMoveWasSlide) {
-    auto movs = acoes(map, !lastMoveWasSlide);
-    // 1) Vitória ou bloqueio imediato para qualquer tipo de jogada
+// // Calcula a melhor jogada para IA, incluindo deslizes
+// vector<int> Agente_joga(Board &map, bool lastMoveWasSlide) {
+//     auto movs = acoes(map, !lastMoveWasSlide);
+//     // 1) Vitória ou bloqueio imediato para qualquer tipo de jogada
+//     for (auto &m : movs) {
+//         // aplica
+//         if (m.type == PLACE)
+//             place(map, m.x, m.y, 'O');
+//         else {
+//             char escolha = (m.x == 0) ? 'l' : 'c';
+//             slide(map, escolha, m.y, m.dir);
+//         }
+//         if (win_check(map) == 1) {
+//             // desfaz a jogada antes de retornar
+//             if (m.type != PLACE) {
+//                 char escolha = (m.x == 0) ? 'l' : 'c';
+//                 slide(map, escolha, m.y, inverseDir(m.dir));
+//             } else
+//                 place(map, m.x, m.y, '_');
+
+//             // Convertendo Move para vetor<int>
+//             vector<int> result;
+//             if (m.type == PLACE) {
+//                 result = {m.x, m.y};
+//             } else {
+//                 result = {m.x, m.y, m.dir == 'd' || m.dir == 'b' ? 1 : 0};
+//             }
+//             return result;
+//         }
+//         // desfaz
+//         if (m.type == PLACE)
+//             place(map, m.x, m.y, '_');
+//         else {
+//             char escolha = (m.x == 0) ? 'l' : 'c';
+//             slide(map, escolha, m.y, inverseDir(m.dir));
+//         }
+//     }
+//     for (auto &m : movs) {
+//         if (m.type == PLACE)
+//             place(map, m.x, m.y, 'X');
+//         else {
+//             char escolha = (m.x == 0) ? 'l' : 'c';
+//             slide(map, escolha, m.y, m.dir);
+//         }
+//         if (win_check(map) == -1) {
+//             // desfaz a jogada antes de retornar
+//             if (m.type != PLACE) {
+//                 char escolha = (m.x == 0) ? 'l' : 'c';
+//                 slide(map, escolha, m.y, inverseDir(m.dir));
+//             } else
+//                 place(map, m.x, m.y, '_');
+
+//             // Convertendo Move para vetor<int>
+//             vector<int> result;
+//             if (m.type == PLACE) {
+//                 result = {m.x, m.y};
+//             } else {
+//                 result = {m.x, m.y, m.dir == 'd' || m.dir == 'b' ? 1 : 0};
+//             }
+//             return result;
+//         }
+//         if (m.type == PLACE)
+//             place(map, m.x, m.y, '_');
+//         else {
+//             char escolha = (m.x == 0) ? 'l' : 'c';
+//             slide(map, escolha, m.y, inverseDir(m.dir));
+//         }
+//     }
+//     // 2) Centro
+//     if (map[1][1] == '_')
+//         return {1, 1};
+//     // 3) Minimax completo
+//     double bestScore = numeric_limits<double>::lowest();
+//     Move best;
+//     best.type = PLACE;
+//     best.x = 0;
+//     best.y = 0;
+//     best.dir = 0;
+
+//     for (auto &m : movs) {
+//         if (m.type == PLACE)
+//             place(map, m.x, m.y, 'O');
+//         else {
+//             char escolha = (m.x == 0) ? 'l' : 'c';
+//             slide(map, escolha, m.y, m.dir);
+//         }
+//         double sc = minimax(map, false, m.type == SLIDE, numeric_limits<double>::lowest(), numeric_limits<double>::max());
+//         if (m.type == PLACE)
+//             map[m.x][m.y] = '_';
+//         else {
+//             char escolha = (m.x == 0) ? 'l' : 'c';
+//             slide(map, escolha, m.y, inverseDir(m.dir));
+//         }
+//         if (sc > bestScore) {
+//             bestScore = sc;
+//             best = m;
+//         }
+//     }
+
+//     // Convertendo Move para vetor<int>
+//     vector<int> result;
+//     if (best.type == PLACE) {
+//         result = {best.x, best.y};
+//     } else {
+//         result = {best.x, best.y, best.dir == 'd' || best.dir == 'b' ? 1 : 0};
+//     }
+//     return result;
+// }
+
+// // Calcula a melhor jogada para IA, incluindo deslizes
+// vector<int> Agente_joga(Board &map, bool aiLastSlide) {
+//     auto movs = acoes(map, !aiLastSlide);
+
+//     // 1) Vitória imediata da IA
+//     for (auto &m : movs) {
+//         // aplica m como IA
+//         if (m.type == PLACE)
+//             place(map, m.x, m.y, 'O');
+//         else {
+//             char escolha = (m.x == 0) ? 'l' : 'c';
+//             slide(map, escolha, m.y, m.dir);
+//         }
+//         if (win_check(map) == 1) {
+//             // desfaz e retorna m
+//             if (m.type == PLACE)
+//                 place(map, m.x, m.y, '_');
+//             else {
+//                 char escolha = (m.x == 0) ? 'l' : 'c';
+//                 slide(map, escolha, m.y, inverseDir(m.dir));
+//             }
+//             if (m.type == PLACE)
+//                 return {m.x, m.y};
+//             else
+//                 return {m.x, m.y, (m.dir=='d'||m.dir=='b') ? 1 : 0};
+//         }
+//         // desfaz
+//         if (m.type == PLACE)
+//             place(map, m.x, m.y, '_');
+//         else {
+//             char escolha = (m.x == 0) ? 'l' : 'c';
+//             slide(map, escolha, m.y, inverseDir(m.dir));
+//         }
+//     }
+
+//     // 2) Bloqueio imediato do humano (PLACE **e** SLIDE inverso)
+//     for (auto &m : movs) {
+//         if (m.type == PLACE) {
+//             // simula X colocando
+//             place(map, m.x, m.y, 'X');
+//             if (win_check(map) == -1) {
+//                 // desfaz e bloqueia com O
+//                 map[m.x][m.y] = '_';
+//                 return {m.x, m.y};
+//             }
+//             map[m.x][m.y] = '_';
+//         }
+//         else {
+//             // simula slide do humano
+//             char escolha = (m.x == 0) ? 'l' : 'c';
+//             slide(map, escolha, m.y, m.dir);
+//             if (win_check(map) == -1) {
+//                 // desfaz simulação
+//                 slide(map, escolha, m.y, inverseDir(m.dir));
+//                 // bloqueia fazendo o slide inverso
+//                 char dirBloqueio = inverseDir(m.dir);
+//                 bool bit = (dirBloqueio=='d' || dirBloqueio=='b');
+//                 return { m.x, m.y, bit ? 1 : 0 };
+//             }
+//             // desfaz simulação sem ameaça
+//             slide(map, escolha, m.y, inverseDir(m.dir));
+//         }
+//     }
+
+//     // // 3) Centro
+//     // if (map[1][1] == '_')
+//     //     return {1, 1};
+
+//     // 4) Minimax completo
+//     double bestScore = numeric_limits<double>::lowest();
+//     Move best = Move(0,0);  // place (0,0) por default
+
+//     for (auto &m : movs) {
+//         if (m.type == PLACE)
+//             place(map, m.x, m.y, 'O');
+//         else {
+//             char escolha = (m.x == 0) ? 'l' : 'c';
+//             slide(map, escolha, m.y, m.dir);
+//         }
+//         double sc = minimax(map, false, m.type == SLIDE, numeric_limits<double>::lowest(), numeric_limits<double>::max());
+//         // desfaz
+//         if (m.type == PLACE)
+//             map[m.x][m.y] = '_';
+//         else {
+//             char escolha = (m.x == 0) ? 'l' : 'c';
+//             slide(map, escolha, m.y, inverseDir(m.dir));
+//         }
+//         if (sc > bestScore) {
+//             bestScore = sc;
+//             best = m;
+//         }
+//     }
+
+//     // retorna melhor (place ou slide)
+//     if (best.type == PLACE)
+//         return {best.x, best.y};
+//     else {
+//         bool bit = (best.dir=='d' || best.dir=='b');
+//         return {best.x, best.y, bit ? 1 : 0};
+//     }
+// }
+
+vector<int> Agente_joga(Board &map, bool aiLastSlide) {
+    auto movs = acoes(map, !aiLastSlide);
+
+    // 1) Vitória imediata da IA (inalterado)
     for (auto &m : movs) {
-        // aplica
+        // aplica m...
         if (m.type == PLACE)
             place(map, m.x, m.y, 'O');
         else {
@@ -188,23 +399,17 @@ vector<int> Agente_joga(Board &map, bool lastMoveWasSlide) {
             slide(map, escolha, m.y, m.dir);
         }
         if (win_check(map) == 1) {
-            // desfaz a jogada antes de retornar
-            if (m.type != PLACE) {
+            // desfaz e retorna m...
+            if (m.type == PLACE)
+                place(map, m.x, m.y, '_');
+            else {
                 char escolha = (m.x == 0) ? 'l' : 'c';
                 slide(map, escolha, m.y, inverseDir(m.dir));
-            } else
-                place(map, m.x, m.y, '_');
-
-            // Convertendo Move para vetor<int>
-            vector<int> result;
-            if (m.type == PLACE) {
-                result = {m.x, m.y};
-            } else {
-                result = {m.x, m.y, m.dir == 'd' || m.dir == 'b' ? 1 : 0};
             }
-            return result;
+            if (m.type == PLACE) return {m.x, m.y};
+            else                 return {m.x, m.y, (m.dir=='d'||m.dir=='b') ? 1 : 0};
         }
-        // desfaz
+        // desfaz...
         if (m.type == PLACE)
             place(map, m.x, m.y, '_');
         else {
@@ -212,48 +417,78 @@ vector<int> Agente_joga(Board &map, bool lastMoveWasSlide) {
             slide(map, escolha, m.y, inverseDir(m.dir));
         }
     }
+
+    // 2) Bloqueio imediato do humano (inalterado)
     for (auto &m : movs) {
-        if (m.type == PLACE)
+        // simula e bloqueia...
+        if (m.type == PLACE) {
             place(map, m.x, m.y, 'X');
-        else {
+            if (win_check(map) == -1) {
+                map[m.x][m.y] = '_';
+                return {m.x, m.y};
+            }
+            map[m.x][m.y] = '_';
+        } else {
             char escolha = (m.x == 0) ? 'l' : 'c';
             slide(map, escolha, m.y, m.dir);
-        }
-        if (win_check(map) == -1) {
-            // desfaz a jogada antes de retornar
-            if (m.type != PLACE) {
-                char escolha = (m.x == 0) ? 'l' : 'c';
+            if (win_check(map) == -1) {
                 slide(map, escolha, m.y, inverseDir(m.dir));
-            } else
-                place(map, m.x, m.y, '_');
-
-            // Convertendo Move para vetor<int>
-            vector<int> result;
-            if (m.type == PLACE) {
-                result = {m.x, m.y};
-            } else {
-                result = {m.x, m.y, m.dir == 'd' || m.dir == 'b' ? 1 : 0};
+                char dirBloq = inverseDir(m.dir);
+                bool bit = (dirBloq=='d' || dirBloq=='b');
+                return {m.x, m.y, bit ? 1 : 0};
             }
-            return result;
-        }
-        if (m.type == PLACE)
-            place(map, m.x, m.y, '_');
-        else {
-            char escolha = (m.x == 0) ? 'l' : 'c';
             slide(map, escolha, m.y, inverseDir(m.dir));
         }
     }
-    // 2) Centro
-    if (map[1][1] == '_')
-        return {1, 1};
-    // 3) Minimax completo
-    double bestScore = numeric_limits<double>::lowest();
-    Move best;
-    best.type = PLACE;
-    best.x = 0;
-    best.y = 0;
-    best.dir = 0;
 
+    // --- NOVAS HEURÍSTICAS ABAIXO ---
+
+    // 3) Centro
+    if (map[1][1] == '_') {
+        return {1, 1};
+    }
+
+    // 4) Cantos
+    const vector<pair<int,int>> corners = {{0,0},{0,2},{2,0},{2,2}};
+    for (auto &c : corners) {
+        if (map[c.first][c.second] == '_')
+            return {c.first, c.second};
+    }
+
+    // 5) Deslize estratégico: escolhe o slide que gera mais “duas em linha” para a IA
+    int bestGain = -1;
+    vector<int> bestSlide;
+    for (auto &m : movs) {
+        if (m.type == SLIDE) {
+            // aplica o slide
+            char escolha = (m.x == 0) ? 'l' : 'c';
+            slide(map, escolha, m.y, m.dir);
+            // conta quantas jogadas de vitória imediata surgem
+            int gain = 0;
+            auto nexts = acoes(map, true);
+            for (auto &n : nexts) {
+                if (n.type == PLACE) {
+                    place(map, n.x, n.y, 'O');
+                    if (win_check(map) == 1) gain++;
+                    map[n.x][n.y] = '_';
+                }
+            }
+            // desfaz
+            slide(map, escolha, m.y, inverseDir(m.dir));
+            // seleciona melhor
+            if (gain > bestGain) {
+                bestGain = gain;
+                bestSlide = {m.x, m.y, (m.dir=='d'||m.dir=='b') ? 1 : 0};
+            }
+        }
+    }
+    if (bestGain > 0) {
+        return bestSlide;
+    }
+
+    // 6) Finalmente, minimax completo (inalterado)
+    double bestScore = numeric_limits<double>::lowest();
+    Move best(0,0);
     for (auto &m : movs) {
         if (m.type == PLACE)
             place(map, m.x, m.y, 'O');
@@ -261,7 +496,10 @@ vector<int> Agente_joga(Board &map, bool lastMoveWasSlide) {
             char escolha = (m.x == 0) ? 'l' : 'c';
             slide(map, escolha, m.y, m.dir);
         }
-        double sc = minimax(map, false, m.type == SLIDE, numeric_limits<double>::lowest(), numeric_limits<double>::max());
+        double sc = minimax(map, false, m.type == SLIDE,
+                            numeric_limits<double>::lowest(),
+                            numeric_limits<double>::max());
+        // desfaz
         if (m.type == PLACE)
             map[m.x][m.y] = '_';
         else {
@@ -274,14 +512,11 @@ vector<int> Agente_joga(Board &map, bool lastMoveWasSlide) {
         }
     }
 
-    // Convertendo Move para vetor<int>
-    vector<int> result;
     if (best.type == PLACE) {
-        result = {best.x, best.y};
+        return {best.x, best.y};
     } else {
-        result = {best.x, best.y, best.dir == 'd' || best.dir == 'b' ? 1 : 0};
+        return {best.x, best.y, (best.dir=='d'||best.dir=='b') ? 1 : 0};
     }
-    return result;
 }
 
 int main() {
@@ -381,7 +616,7 @@ int main() {
                  << endl;
         }
         // checa vitória da IA
-        if (win_check(map) == -1) {
+        if (win_check(map) == 1) {
             mostra(map);
             cout << "ROBO GANHOU!!!" << endl;
             break;
@@ -393,11 +628,12 @@ int main() {
             break;
         }
         // checa vitória do jogador caso jogada burra da IA
-        if(win_check(map) == 1){
+        if(win_check(map) == -1){
             mostra(map);
             cout << "VOCÊ GANHOU!!!" << endl;
             break;
         }
+        mostra(map);
     }
     return 0;
 }
