@@ -296,7 +296,8 @@ int main() {
     char Pescolha;
     int index;
     char dir;
-    bool lastMoveWasSlide = false;
+    bool humanLastSlide = false;
+    bool aiLastSlide    = false;
 
     mostra(map);
     while (true) {
@@ -325,9 +326,9 @@ int main() {
                 continue;
             }
             place(map, seletX, seletY, 'X');
-            lastMoveWasSlide = false;
+            humanLastSlide = false;
         } else {
-            if (lastMoveWasSlide) {
+            if (humanLastSlide) {
                 cout << "Você não pode deslizar duas vezes seguidas" << endl;
                 continue;
             }
@@ -351,7 +352,7 @@ int main() {
             }
             index--;
             slide(map, Pescolha, index, dir);
-            lastMoveWasSlide = true;
+            humanLastSlide = true;
         }
         // checa vitória do jogador
         if (win_check(map) == -1) {
@@ -360,11 +361,11 @@ int main() {
             break;
         }
         // vez da IA
-        vector<int> jogada = Agente_joga(map, lastMoveWasSlide);
+        vector<int> jogada = Agente_joga(map, aiLastSlide);
         if (jogada.size() == 2) {
             // jogada normal
             place(map, jogada[0], jogada[1], 'O');
-            lastMoveWasSlide = false;
+            aiLastSlide    = false;
             cout << "Jogada da IA: " << jogada[0] + 1 << " " << jogada[1] + 1 << endl;
         } else if (jogada.size() == 3) {
             // deslize da IA
@@ -372,7 +373,7 @@ int main() {
             int idx = jogada[1];
             char idir = (jogada[2] == 0 ? (escolha == 'l' ? 'e' : 'c') : (escolha == 'l' ? 'd' : 'b'));
             slide(map, escolha, idx, idir);
-            lastMoveWasSlide = true;
+            aiLastSlide    = true;
             cout << "IA desliza "
                  << (escolha=='l'?"linha ":"coluna ")
                  << idx+1 << " para "
