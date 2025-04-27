@@ -379,7 +379,7 @@ int main() {
                  << idx+1 << " para "
                  << (idir=='e'||idir=='c' ? (idir=='e'?"esquerda":"cima") : (idir=='d'?"direita":"baixo"))
                  << endl;
-        } 
+        }
         // checa vitória da IA
         if (win_check(map) == -1) {
             mostra(map);
@@ -392,7 +392,12 @@ int main() {
             cout << "EMPATE!!!" << endl;
             break;
         }
-        mostra(map);
+        // checa vitória do jogador caso jogada burra da IA
+        if(win_check(map) == 1){
+            mostra(map);
+            cout << "VOCÊ GANHOU!!!" << endl;
+            break;
+        }
     }
     return 0;
 }
