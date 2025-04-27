@@ -354,7 +354,7 @@ int main() {
             lastMoveWasSlide = true;
         }
         // checa vitória do jogador
-        if (win_check(map) == 1) {
+        if (win_check(map) == -1) {
             mostra(map);
             cout << "VOCÊ GANHOU!!!" << endl;
             break;
@@ -365,7 +365,7 @@ int main() {
             // jogada normal
             place(map, jogada[0], jogada[1], 'O');
             lastMoveWasSlide = false;
-            cout << "Jogada da IA: " << jogada[1] + 1 << " " << jogada[0] + 1 << endl;
+            cout << "Jogada da IA: " << jogada[0] + 1 << " " << jogada[1] + 1 << endl;
         } else if (jogada.size() == 3) {
             // deslize da IA
             char escolha = (jogada[0] == 0 ? 'l' : 'c');
@@ -378,14 +378,17 @@ int main() {
                  << idx+1 << " para "
                  << (idir=='e'||idir=='c' ? (idir=='e'?"esquerda":"cima") : (idir=='d'?"direita":"baixo"))
                  << endl;
-        } else {
-            cout << "Empate!" << endl;
-            break;
-        }
+        } 
         // checa vitória da IA
         if (win_check(map) == -1) {
             mostra(map);
             cout << "ROBO GANHOU!!!" << endl;
+            break;
+        }
+
+        if (win_check(map) == 0) {
+            mostra(map);
+            cout << "EMPATE!!!" << endl;
             break;
         }
         mostra(map);
