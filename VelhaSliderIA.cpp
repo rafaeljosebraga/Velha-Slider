@@ -245,7 +245,7 @@ vector<int> Agente_joga(Board &map, bool aiLastSlide) {
             return {c.first, c.second};
     }
 
-    // 5) Deslize estratégico: escolhe o slide que gera mais “duas em linha” para a IA
+    // Deslize estratégico: escolhe o slide que gera mais “duas em linha” para a IA
     int bestGain = -1;
     vector<int> bestSlide;
     for (auto &m : movs) {
@@ -276,7 +276,7 @@ vector<int> Agente_joga(Board &map, bool aiLastSlide) {
         return bestSlide;
     }
 
-    // 6) Finalmente, minimax completo (inalterado)
+    // Finalmente, minimax completo (inalterado)
     double bestScore = numeric_limits<double>::lowest();
     Move best(0,0);
     for (auto &m : movs) {
