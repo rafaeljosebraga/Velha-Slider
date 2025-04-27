@@ -180,7 +180,7 @@ int minimax(Board &map, bool isMaximizing, bool lastMoveWasSlide, double alpha, 
 vector<int> Agente_joga(Board &map, bool aiLastSlide) {
     auto movs = acoes(map, !aiLastSlide);
 
-    // 1) Vitória imediata da IA (inalterado)
+    // Vitória imediata da IA (inalterado)
     for (auto &m : movs) {
         // aplica m...
         if (m.type == PLACE)
@@ -209,7 +209,7 @@ vector<int> Agente_joga(Board &map, bool aiLastSlide) {
         }
     }
 
-    // 2) Bloqueio imediato do humano (inalterado)
+    // Bloqueio imediato do humano (inalterado)
     for (auto &m : movs) {
         // simula e bloqueia...
         if (m.type == PLACE) {
@@ -232,14 +232,13 @@ vector<int> Agente_joga(Board &map, bool aiLastSlide) {
         }
     }
 
-    // --- NOVAS HEURÍSTICAS ABAIXO ---
 
-    // 3) Centro
+    //Centro
     if (map[1][1] == '_') {
         return {1, 1};
     }
 
-    // 4) Cantos
+    //Cantos
     const vector<pair<int,int>> corners = {{0,0},{0,2},{2,0},{2,2}};
     for (auto &c : corners) {
         if (map[c.first][c.second] == '_')
@@ -379,8 +378,7 @@ int main() {
             index--;
             slide(map, Pescolha, index, dir);
             humanLastSlide = true;
-        }
-        // checa vitória do jogador
+        }        // checa vitória do jogador
         if (win_check(map) == -1) {
             mostra(map);
             cout << "VOCÊ GANHOU!!!" << endl;
