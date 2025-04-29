@@ -3,19 +3,15 @@
 #include <cctype>
 #include <limits>
 
-
 using namespace std;
-
 
 typedef vector<vector<int>> mov;
 typedef vector<vector<char>> Board;
-
 
 enum MoveType {
    PLACE,  // Colocar peça
    SLIDE   // Deslizar linha/coluna
 };
-
 
 // Estrutura que representa um movimento
 struct Move {
@@ -31,7 +27,6 @@ struct Move {
     Move(int escolha, int idx, char direction) : type(SLIDE), x(escolha), y(idx), dir(direction) {}
 };
 
-
 // Inverte a direção de um deslize
 char inverseDir(char dir) {
     if (dir == 'e') return 'd';
@@ -41,11 +36,9 @@ char inverseDir(char dir) {
     return 0;
 }
 
-
 // Gera todos os movimentos possíveis
 vector<Move> acoes(Board &map, bool podeSlide) {
     vector<Move> movimentos;
-
 
     // Movimentos de colocar peça
     for (int i = 0; i < 3; i++) {
@@ -55,7 +48,6 @@ vector<Move> acoes(Board &map, bool podeSlide) {
             }
         }
     }
-
 
     // Movimentos de deslize, se permitido
     if (podeSlide) {
@@ -73,7 +65,6 @@ vector<Move> acoes(Board &map, bool podeSlide) {
     return movimentos;
 }
 
-
 // mostra o mapa
 void mostra(vector<vector<char>> &map) {
     for (int x = 0; x < 3; x++) {
@@ -83,7 +74,6 @@ void mostra(vector<vector<char>> &map) {
         cout << endl;
     }
 }
-
 
 // função que checa a vitória
 int win_check(Board &map) {
@@ -104,7 +94,6 @@ int win_check(Board &map) {
         return (map[0][2] == 'X') ? -1 : 1;  // -1 para X, 1 para O
     }
 
-
     // verifica se o tabuleiro está cheio (empate)
     int counter = 0;
     for (int x = 0; x < 3; x++) {
@@ -116,12 +105,10 @@ int win_check(Board &map) {
     return 2;  // jogo continua
 }
 
-
 // função que coloca peça
 void place(Board &map, int x, int y, char C) {
     map[x][y] = C;
 }
-
 
 // função que desliza (linha ou coluna)
 void slide(Board &map, char escolha, int index, char dir) {
@@ -142,19 +129,15 @@ void slide(Board &map, char escolha, int index, char dir) {
     }
 }
 
-
 // minimax (avaliação recursiva)
 int minimax(Board &map, bool isMaximizing, bool lastMoveWasSlide, double alpha, double beta) {
 
-
     double best = isMaximizing ? numeric_limits<double>::lowest() : numeric_limits<double>::max();
-
 
     int win = win_check(map);
     if (win == 1) return +1;
     if (win == -1) return -1;
     if (win == 0) return 0;
-
 
     char P = isMaximizing ? 'O' : 'X';
     auto movs = acoes(map, !lastMoveWasSlide);
@@ -188,10 +171,8 @@ int minimax(Board &map, bool isMaximizing, bool lastMoveWasSlide, double alpha, 
     return best;
 }
 
-
 vector<int> Agente_joga(Board &map, bool aiLastSlide) {
     auto movs = acoes(map, !aiLastSlide);
-
 
     //Finalmente, minimax completo (inalterado)
     double bestScore = numeric_limits<double>::lowest();
@@ -203,9 +184,7 @@ vector<int> Agente_joga(Board &map, bool aiLastSlide) {
             char escolha = (m.x == 0) ? 'l' : 'c';
             slide(map, escolha, m.y, m.dir);
         }
-        double sc = minimax(map, false, m.type == SLIDE,
-                            numeric_limits<double>::lowest(),
-                            numeric_limits<double>::max());
+        double sc = minimax(map, false, m.type == SLIDE, numeric_limits<double>::lowest(), numeric_limits<double>::max());
         // desfaz
         if (m.type == PLACE)
             map[m.x][m.y] = '_';
@@ -219,14 +198,12 @@ vector<int> Agente_joga(Board &map, bool aiLastSlide) {
         }
     }
 
-
     if (best.type == PLACE) {
         return {best.x, best.y};
     } else {
         return {best.x, best.y, (best.dir=='d'||best.dir=='b') ? 1 : 0};
     }
 }
-
 
 int main() {
     // inicializa o tabuleiro vazio
@@ -237,13 +214,11 @@ int main() {
         {'_', '_', '_'}
     };
 
-
     vector<vector<char>> Initmap = {
         {'_', '_', '_'},
         {'_', '_', '_'},
         {'_', '_', '_'}
     };
-
 
     int seletX = 0, seletY = 0;
     char Pescolha;
@@ -251,7 +226,6 @@ int main() {
     char dir;
     bool humanLastSlide = false;
     bool aiLastSlide    = false;
-
 
     while(true){
         map = Initmap;
@@ -331,14 +305,12 @@ int main() {
                 break;
             }
 
-
             if (win_check(map) == 0) {
                 mostra(map);
                 cout << "EMPATE!!!" << endl;
                 break;
             }
             mostra(map);
-
 
             // vez da IA
             vector<int> jogada = Agente_joga(map, aiLastSlide);
@@ -358,7 +330,6 @@ int main() {
                 << (idir=='e'||idir=='c' ? (idir=='e'?"esquerda":"cima") : (idir=='d'?"direita":"baixo")) << endl;
             }
 
-
             if (win_check(map) == -1) {
                 mostra(map);
                 cout << "VOCÊ GANHOU!!!" << endl;
@@ -371,7 +342,6 @@ int main() {
                 cout << "ROBO GANHOU. Mais sorte na próxima vez!!!" << endl;
                 break;
             }
-
 
             if (win_check(map) == 0) {
                 mostra(map);
