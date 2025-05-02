@@ -86,8 +86,8 @@ int win_check(Board &map) {
             if(map[i][0] == 'O') {o = 1;}
         }
         if (map[0][i] != '_' && map[0][i] == map[1][i] && map[1][i] == map[2][i]) {
-            if(map[i][0] == 'X') {x = 1;}
-            if(map[i][0] == 'O') {o = 1;}
+            if(map[0][i] == 'X') {x = 1;}
+            if(map[0][i] == 'O') {o = 1;}
         }
     }
     // checa diagonais
