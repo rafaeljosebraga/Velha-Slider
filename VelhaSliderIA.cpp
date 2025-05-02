@@ -130,13 +130,13 @@ void slide(Board &map, char escolha, int index, char dir) {
 }
 
 // minimax (avaliação recursiva)
-int minimax(Board &map, bool isMaximizing, bool lastMoveWasSlide, double alpha, double beta) {
+int minimax(Board &map, bool isMaximizing, bool lastMoveWasSlide, double alpha, double beta, int depth = 0) {
 
     double best = isMaximizing ? numeric_limits<double>::lowest() : numeric_limits<double>::max();
 
     int win = win_check(map);
-    if (win == 1) return +1;
-    if (win == -1) return -1;
+    if (win == 1) return +10-depth;
+    if (win == -1) return -10+depth;
     if (win == 0) return 0;
 
     char P = isMaximizing ? 'O' : 'X';
@@ -150,7 +150,7 @@ int minimax(Board &map, bool isMaximizing, bool lastMoveWasSlide, double alpha, 
             slide(map, escolha, m.y, m.dir);
         }
         // avalia
-        double score = minimax(map, !isMaximizing, m.type == SLIDE, alpha, beta);
+        double score = minimax(map, !isMaximizing, m.type == SLIDE, alpha, beta, depth + 1);
         // desfaz
         if (m.type == PLACE)
             map[m.x][m.y] = '_';
@@ -233,7 +233,7 @@ int main() {
         cout << "\n-----------------------" << endl;
         cout << "Patida: " << partidas << endl;
         cout << "-----------------------" << endl;
- 
+
         place(map,0,0,'O');
         cout << "Jogada da IA: 1 1" << endl;
         mostra(map);
@@ -297,7 +297,7 @@ int main() {
                 cout << "VOCÊ GANHOU!!!" << endl;
                 break;
             }
-     
+
             // checa vitória da IA
             if (win_check(map) == 1) {
                 mostra(map);
@@ -335,7 +335,7 @@ int main() {
                 cout << "VOCÊ GANHOU!!!" << endl;
                 break;
             }
-     
+
             // checa vitória da IA
             if (win_check(map) == 1) {
                 mostra(map);
