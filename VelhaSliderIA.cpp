@@ -77,23 +77,31 @@ void mostra(vector<vector<char>> &map) {
 
 // função que checa a vitória
 int win_check(Board &map) {
+    int vencedores = 0, x = 0, o = 0;
+
     // checa linhas e colunas
     for (int i = 0; i < 3; ++i) {
         if (map[i][0] != '_' && map[i][0] == map[i][1] && map[i][1] == map[i][2]) {
-            return (map[i][0] == 'X') ? -1 : 1;  // -1 para X, 1 para O
+            if(map[i][0] == 'X') {x = 1;}
+            if(map[i][0] == 'O') {o = 1;}
         }
         if (map[0][i] != '_' && map[0][i] == map[1][i] && map[1][i] == map[2][i]) {
-            return (map[0][i] == 'X') ? -1 : 1;  // -1 para X, 1 para O
+            if(map[i][0] == 'X') {x = 1;}
+            if(map[i][0] == 'O') {o = 1;}
         }
     }
     // checa diagonais
     if (map[0][0] != '_' && map[0][0] == map[1][1] && map[1][1] == map[2][2]) {
-        return (map[0][0] == 'X') ? -1 : 1;  // -1 para X, 1 para O
+        if(map[0][0] == 'X') {x = 1;}
+        if(map[0][0] == 'O') {o = 1;}
     }
     if (map[0][2] != '_' && map[0][2] == map[1][1] && map[1][1] == map[2][0]) {
-        return (map[0][2] == 'X') ? -1 : 1;  // -1 para X, 1 para O
+        if(map[0][2] == 'X') {x = 1;}
+        if(map[0][2] == 'O') {o = 1;}
     }
-
+    if(x == 1 && o == 1) return 0;
+    if(x == 1) return -1;
+    if(o == 1) return 1;
     // verifica se o tabuleiro está cheio (empate)
     int counter = 0;
     for (int x = 0; x < 3; x++) {
