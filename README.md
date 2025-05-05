@@ -106,7 +106,8 @@ _ _ _
 ```
 📁 IA
  ├ VelhaSliderIA.cpp              # código-fonte principal
- ├ README.md                      # documentação do projeto
  ├ Arvore_de_decisão.pdf          # árvore de decisão da IA após alguns passos
- └ Jogo da velha atividade 4.pdf  # breve descrição e um exemplo de teste
+ ├ Jogo da velha atividade 4.pdf  # breve descrição e um exemplo de teste
+ └ README.md                      # documentação do projeto
+ 
 ```
