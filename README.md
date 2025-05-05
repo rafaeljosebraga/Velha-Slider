@@ -15,7 +15,6 @@
 - [Regras do Jogo](#regras-do-jogo)  
 - [Como Funciona a IA](#como-funciona-a-ia)  
 - [Estrutura do Repositório](#estrutura-do-repositório)  
-- [Contribuidores](#contribuidores)  
 
 ---
 
@@ -110,9 +109,3 @@ _ _ _
  ├ README.md                      # documentação do projeto
  └ Jogo da velha atividade 4.pdf  # breve descição e um exemplo de teste
 ```
-
-## Contribuidores
-
-- Rafael Braga (https://github.com/rafaeljosebraga)   
-- João KSS (https://github.com/JoaoKSS)  
-- Nicolaz Lxl (https://github.com/nicolazlxl)  
