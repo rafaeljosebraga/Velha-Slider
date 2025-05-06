@@ -4,17 +4,17 @@
 
 ## 🗂️ Índice
 
-- [Descrição](#descrição)  
-- [Demonstração](#demonstração)  
-- [Funcionalidades](#funcionalidades)  
-- [Pré-requisitos](#pré-requisitos)  
-- [Instalação e Compilação](#instalação-e-compilação)  
-- [Como Jogar](#como-jogar)  
-  - [Movimento de Colocar Peça](#movimento-de-colocar-peça)  
-  - [Movimento de Slide](#movimento-de-slide)  
-- [Regras do Jogo](#regras-do-jogo)  
-- [Como Funciona a IA](#como-funciona-a-ia)  
-- [Estrutura do Repositório](#estrutura-do-repositório)  
+- [📖 Descrição](#📖-descrição)  
+- [🎬 Demonstração](#🎬-demonstração)  
+- [🚀 Funcionalidades](#🚀-funcionalidades)  
+- [⚙️ Pré-requisitos](#⚙️-pré-requisitos)  
+- [🛠️ Instalação e Compilação](#🛠️-instalação-e-compilação)  
+- [🎲 Como Jogar](#🎲-como-jogar)  
+  - [✏️ Movimento de Colocar Peça](#✏️-movimento-de-colocar-peça)  
+  - [🔄 Movimento de Slide](#🔄-movimento-de-slide)  
+- [📜 Regras do Jogo](#📜-regras-do-jogo)  
+- [🧠 Como Funciona a IA](#🧠-como-funciona-a-ia)  
+- [🗂️ Estrutura do Repositório](#🗂️-estrutura-do-repositório)
 
 ---
 
