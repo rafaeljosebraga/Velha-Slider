@@ -4,25 +4,25 @@
 
 ## 🗂️ Índice
 
-- [📖 Descrição](#📖-descrição)  
-- [🎬 Demonstração](#🎬-demonstração)  
-- [🚀 Funcionalidades](#🚀-funcionalidades)  
-- [⚙️ Pré-requisitos](#⚙️-pré-requisitos)  
-- [🛠️ Instalação e Compilação](#🛠️-instalação-e-compilação)  
-- [🎲 Como Jogar](#🎲-como-jogar)  
-  - [✏️ Movimento de Colocar Peça](#✏️-movimento-de-colocar-peça)  
-  - [🔄 Movimento de Slide](#🔄-movimento-de-slide)  
-- [📜 Regras do Jogo](#📜-regras-do-jogo)  
-- [🧠 Como Funciona a IA](#🧠-como-funciona-a-ia)  
-- [🗂️ Estrutura do Repositório](#🗂️-estrutura-do-repositório)
+- [📖 Descrição](#descricao)  
+- [🎬 Demonstração](#demonstracao)  
+- [🚀 Funcionalidades](#funcionalidades)  
+- [⚙️ Pré-requisitos](#prerequisitos)  
+- [🛠️ Instalação e Compilação](#instalacao-e-compilacao)  
+- [🎲 Como Jogar](#como-jogar)  
+  - [✏️ Movimento de Colocar Peça](#movimento-colocar-peca)  
+  - [🔄 Movimento de Slide](#movimento-slide)  
+- [📜 Regras do Jogo](#regras-do-jogo)  
+- [🧠 Como Funciona a IA](#como-funciona-a-ia)  
+- [🗂️ Estrutura do Repositório](#estrutura-do-repositorio)
 
 ---
 
-## 📖 Descrição
+## <span id="descricao">📖 Descrição</span>
 
 O projeto **Velha-Slider** é uma variação do clássico Jogo da Velha em que, além de colocar peças (`X` e `O`), o jogador e a IA podem deslizar qualquer linha ou coluna, movendo as três posições em quatro direções: esquerda, direita, para cima e para baixo. A IA utiliza o algoritmo _Minimax_, que explora recursivamente todas as sequências de jogadas possíveis até alcançar um estado terminal (vitória, derrota ou empate) e atribui pontuações a cada resultado. Para otimizar essa busca, empregamos a **poda α-β** (_alpha-beta_), que interrompe a avaliação de ramos da árvore de decisões cujos valores não podem influenciar a escolha da jogada ideal, reduzindo drasticamente o número de nós visitados sem comprometer a precisão da decisão.
 
-## 🎬 Demonstração
+## <span id="demonstracao">🎬 Demonstração</span>
 
 ```
 -----------------------
@@ -35,7 +35,7 @@ _ _ _
 ```
 *(exemplo de saída inicial)*
 
-## 🚀 Funcionalidades
+## <span id="funcionalidades">🚀 Funcionalidades</span>
 
 - Tabuleiro 3×3 com peças `X` (jogador) e `O` (IA).  
 - Movimento de **colocar peça** em qualquer célula vazia.  
@@ -45,13 +45,13 @@ _ _ _
   - Avaliação de vitória, derrota e empate.  
   - Evita dois slides consecutivos de mesmo jogador.  
 
-## ⚙️ Pré-requisitos
+## <span id="prerequisitos">⚙️ Pré-requisitos</span>
 
 - Compilador C++ (g++, clang++ ou MSVC).  
 - Sistema operacional: Windows, macOS ou Linux.  
 - (Opcional) IDE/editor de sua preferência.
 
-## 🛠️ Instalação e Compilação
+## <span id="instalacao-e-compilacao">🛠️ Instalação e Compilação</span>
 
 1. Clone este repositório:
    ```bash
@@ -73,25 +73,25 @@ _ _ _
    ./VelhaSliderIA
    ```
 
-## 🎲 Como Jogar
+## <span id="como-jogar">🎲 Como Jogar</span>
 
-### ✏️ Movimento de Colocar Peça
+### <span id="movimento-colocar-peca">✏️ Movimento de Colocar Peça</span>
 
 - Digite `C` e forneça duas coordenadas `(linha, coluna)` entre 1 e 3.
 - A peça `X` será colocada nesta posição se estiver vazia.
 
-### 🔄 Movimento de Slide
+### <span id="movimento-slide">🔄 Movimento de Slide</span>
 
 - Digite `D`, escolha `L` (linha) ou `C` (coluna), o índice (1–3) e a direção:
   - Linha: `E` para esquerda, `D` para direita.  
   - Coluna: `C` para cima, `B` para baixo.  
 
-## 📜 Regras do Jogo
+## <span id="regras-do-jogo">📜 Regras do Jogo</span>
 
 - Cada jogador não pode deslizar em duas jogadas consecutivas (deve esperar um turno após um slide).  
 - Caso um slide gere vitória simultânea para `X` e `O` (dupla vitória), considera-se **empate**.  
 
-## 🧠 Como Funciona a IA
+## <span id="como-funciona-a-ia">🧠 Como Funciona a IA</span>
 
 1. Gera todas as ações possíveis (colocar + slide, se permitido naquela jogada).  
 2. Para cada ação, simula recursivamente via _minimax_ com poda α-β.  
@@ -101,7 +101,7 @@ _ _ _
    - Empate: `0`  
 4. Escolhe o movimento de maior pontuação.
 
-## 🗂️ Estrutura do Repositório
+## <span id="estrutura-do-repositorio">🗂️ Estrutura do Repositório</span>
 
 ```
 📁 IA
